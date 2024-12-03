@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>MIT 6.005 Reading3 Testing - EliotShen&#039;s blog</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="EliotShen&#039;s blog"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="EliotShen&#039;s blog"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="understand the value of testing, and know the process of test-first programming; be able to design a test suite for a method by partitioning its input and output space and choosing good test cases;"><meta property="og:type" content="blog"><meta property="og:title" content="my blog"><meta property="og:url" content="http://example.com/2024/11/23/MIT-6-005-Reading3-Testing/"><meta property="og:site_name" content="my blog"><meta property="og:description" content="understand the value of testing, and know the process of test-first programming; be able to design a test suite for a method by partitioning its input and output space and choosing good test cases;"><meta property="og:locale" content="en_US"><meta property="og:image" content="http://example.com/img/image.png"><meta property="og:image" content="http://example.com/img/image-1.png"><meta property="og:image" content="http://example.com/img/image-2.png"><meta property="og:image" content="http://example.com/img/image-4.png"><meta property="article:published_time" content="2024-11-23T14:53:33.000Z"><meta property="article:modified_time" content="2024-12-03T14:21:48.742Z"><meta property="article:author" content="Zhuokang Shen"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="http://example.com/img/image.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2024/11/23/MIT-6-005-Reading3-Testing/"},"headline":"MIT 6.005 Reading3 Testing","image":["http://example.com/img/image.png","http://example.com/img/image-1.png","http://example.com/img/image-2.png","http://example.com/img/image-4.png"],"datePublished":"2024-11-23T14:53:33.000Z","dateModified":"2024-12-03T14:21:48.742Z","author":{"@type":"Person","name":"Zhuokang Shen"},"publisher":{"@type":"Organization","name":"EliotShen's blog","logo":{"@type":"ImageObject","url":"http://example.com/img/sea.jpg"}},"description":"understand the value of testing, and know the process of test-first programming; be able to design a test suite for a method by partitioning its input and output space and choosing good test cases;"}</script><link rel="canonical" href="http://example.com/2024/11/23/MIT-6-005-Reading3-Testing/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link data-pjax rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oxanium:wght@300;400;600&amp;family=Roboto+Mono"><link data-pjax rel="stylesheet" href="/css/cyberpunk.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/sea.jpg" alt="EliotShen&#039;s blog" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item search" title="Search" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2024-11-23T14:53:33.000Z" title="2024/11/23 22:53:33">2024-11-23</time></span><span class="level-item">Updated&nbsp;<time dateTime="2024-12-03T14:21:48.742Z" title="2024/12/3 22:21:48">2024-12-03</time></span><span class="level-item">27 minutes read (About 4047 words)</span></div></div><h1 class="title is-3 is-size-4-mobile">MIT 6.005 Reading3 Testing</h1><div class="content"><blockquote>
+<ul>
+<li>understand the value of testing, and know the process of test-first programming;</li>
+<li>be able to design a test suite for a method by partitioning its input and output space and choosing good test cases;</li>
+<li>be able to judge a test suite by measuring its code coverage; and</li>
+<li>understand and know when to use blackbox vs. whitebox testing, unit tests vs. integration tests, and automated regression testing.</li>
+</ul>
+</blockquote>
+<h2 id="Validation"><a href="#Validation" class="headerlink" title="Validation"></a>Validation</h2><p>测试你的程序正确性—即为：验证Validation，发现程序中潜在的bug并增强其可信度。</p>
+<p>验证有三种方式：</p>
+<ol>
+<li><p>形式化证明。用正式的证明方式来验证程序的正确性。手工证明很难，而自动化验证工具领域近些年来很活跃。对于小型程序可以用手工方式验证，比如调度器，字节解释器，文件系统等。</p>
+</li>
+<li><p>Code review. 让别人来审阅你的代码，你的同伴，学长，或更有经验的人。</p>
+</li>
+<li><p>Testing. 通过设计输入输出对，老老实实对你的程序做测试。</p>
+</li>
+</ol>
+<span id="more"></span>
+
+<p>验证难以企及完美。可以用bug&#x2F;千行代码的指标来估计，以下是几个例子：</p>
+<blockquote>
+<ul>
+<li>1 - 10 defects&#x2F;kloc: 典型的工业界软件</li>
+<li>0.1 - 1 defects&#x2F;kloc: Java通用库</li>
+<li>0.01 - 0.1 defects&#x2F;kloc: NASA</li>
+</ul>
+</blockquote>
+<h3 id="Why-Software-Testing-is-Hard"><a href="#Why-Software-Testing-is-Hard" class="headerlink" title="Why Software Testing is Hard"></a>Why Software Testing is Hard</h3><p>受限于精度范围，比如int，float范围，没法在数域上做到穷尽。</p>
+<p>随意选取的测试案例并不能找到什么bug，也不严谨。</p>
+<p>统计学测试并不适用于软件领域。软件的缺陷在时空上并不是连续的，而是离散的，经常在边界点崩溃。</p>
+<p>现在，作为一个测试者，你需要转变心态，承认自己程序存在潜在错误，并积极去找出它！</p>
+<h2 id="Test-first-Programming-测试优先编程"><a href="#Test-first-Programming-测试优先编程" class="headerlink" title="Test-first Programming 测试优先编程"></a>Test-first Programming 测试优先编程</h2><p>Test early and often. </p>
+<p>Don’t leave testing until the end, when you have a big pile of unvalidated code.</p>
+<p>尽早开始测试，不要留到最后，面对一堆长长的代码，将大大增加测试的难度。</p>
+<p>The development of a single function proceeds in this order:</p>
+<blockquote>
+<ol>
+<li>Write a specification for the function.</li>
+<li>Write tests that exercise the specification.</li>
+<li>Write the actual code. Once your code passes the tests you wrote, you’re done.</li>
+</ol>
+</blockquote>
+<p>specification 描述函数的输入和输出，给出参数的类型及其约束(eg:非负性)，返回值。</p>
+<p>example：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> val another BigIntger</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> a BigInteger whose value is (this * val).</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> BigInteger <span class="title function_">multiply</span><span class="params">(BigInteger val)</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Choosing-Test-Cases-by-Partitioning"><a href="#Choosing-Test-Cases-by-Partitioning" class="headerlink" title="Choosing Test Cases by Partitioning"></a>Choosing Test Cases by Partitioning</h2><p>将函数的输入空间划分为几个互不相交的子区域(函数的一组输入)，子区域一起覆盖了函数的整个输入空间，从子区域上各随机取点作为测试案例代表该区域，加起来，就变成了测试集。<br>这种方法既节省了测试资源，又能涵盖函数的所有情况，节约高效。<br><img src="/img/image.png" alt="alt text"></p>
+<p>Example: BigInteger.multiply()</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> val another BigIntger</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> a BigInteger whose value is (this * val).</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> BigInteger <span class="title function_">multiply</span><span class="params">(BigInteger val)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 测试案例格式如下：</span></span><br><span class="line"><span class="type">BigInteger</span> <span class="variable">a</span> <span class="operator">=</span> ...;</span><br><span class="line"><span class="type">BigInteger</span> <span class="variable">b</span> <span class="operator">=</span> ...;</span><br><span class="line"><span class="type">BigInteger</span> <span class="variable">ab</span> <span class="operator">=</span> a.multiply(b);</span><br></pre></td></tr></table></figure>
+<p>我们可以按a,b的正负性加特殊值(eg: 1，0，-1)进行分区。<br>我们还需思考案例本身的性质，比如这是一个大整数乘法，我们需要测试当ab非常大的情况下，算法是否还能正常工作，所以还需按大小分区。</p>
+<p>最终划分得到的区域如下：</p>
+<p><img src="/img/image-1.png" alt="alt text"></p>
+<blockquote>
+<ul>
+<li>0</li>
+<li>1</li>
+<li>-1</li>
+<li>small positive integer</li>
+<li>small negative integer</li>
+<li>huge positive integer</li>
+<li>huge negative integer</li>
+</ul>
+</blockquote>
+<p>覆盖了a和b组成的所有输入空间，接下来从每个区域选取一个点作为代表点.<br>(a,b) &#x3D; (-3, 25) to cover (small negative, small positive)</p>
+<p>(a,b) &#x3D; (0, 30) to cover (0, small positive)</p>
+<p>(a,b) &#x3D; (2^100, 1) to cover (large positive, 1)</p>
+<p>etc.</p>
+<p>第二个例子：max()</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> a  an argument</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> b  another argument</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> the larger of a and b.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">max</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span></span><br></pre></td></tr></table></figure>
+
+<p>max : int × int → int</p>
+<p><img src="/img/image-2.png" alt="alt text"></p>
+<p>该函数有三种关系：a &lt; b，a &#x3D; b，a &gt; b</p>
+<p>所以我们的测试集应为：</p>
+<p>(a, b) &#x3D; (1, 2) to cover a &lt; b</p>
+<p>(a, b) &#x3D; (9, 9) to cover a &#x3D; b</p>
+<p>(a, b) &#x3D; (-5, -6) to cover a &gt; b</p>
+<h2 id="Include-Boundaries-in-the-Partition"><a href="#Include-Boundaries-in-the-Partition" class="headerlink" title="Include Boundaries in the Partition"></a>Include Boundaries in the Partition</h2><p>bug经常发生在边界条件上发生。</p>
+<p>例子：</p>
+<blockquote>
+<ul>
+<li>0是正负数的边界</li>
+<li>int和double的最小和最大边界值</li>
+<li>空的字符串，数组，列表等等集合类型</li>
+<li>集合类型的第一个和最后一个元素</li>
+</ul>
+</blockquote>
+<p>为什么bug经常发生在边界条件上发生？</p>
+<ol>
+<li>因为程序员经常犯“偏移一位”的错误。<br>例如将&lt;&#x3D;写成&lt;，将计数变量counter初始化为0而不是1。</li>
+<li>这些边界可能需要作为代码中的特殊情况来处理。</li>
+<li>边界上导致数值上的不连续性，比如int变量过大，从正数溢出至负数。</li>
+</ol>
+<p>所以我们要记得将边界包括在测试分区内，从边界选取值作为测试输入。</p>
+<p>eg: max : int × int → int</p>
+<p>可以分区为：</p>
+<blockquote>
+<ul>
+<li>relationship between a and b</li>
+</ul>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>a &lt; b</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>a &#x3D; b</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>a &gt; b</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<ul>
+<li>value of a</li>
+</ul>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>a &#x3D; 0</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>a &lt; 0</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>a &gt; 0</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>a &#x3D; minimum integer</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>a &#x3D; maximum integer</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<ul>
+<li>value of b</li>
+</ul>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>b &#x3D; 0</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>b &lt; 0</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>b &gt; 0</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>b &#x3D; minimum integer</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>b &#x3D; maximum integer</p>
+</blockquote>
+</blockquote>
+<p>接下来我们从这些分区中选择测试用例:</p>
+<p>(1, 2) covers a &lt; b, a &gt; 0, b &gt; 0</p>
+<p>(-1, -3) covers a &gt; b, a &lt; 0, b &lt; 0</p>
+<p>(0, 0) covers a &#x3D; b, a &#x3D; 0, b &#x3D; 0</p>
+<p>(Integer.MIN_VALUE, Integer.MAX_VALUE) covers a &lt; b, a &#x3D; minint, b &#x3D; maxint</p>
+<p>(Integer.MAX_VALUE, Integer.MIN_VALUE) covers a &gt; b, a &#x3D; maxint, b &#x3D; minint</p>
+<h2 id="Two-Extremes-for-Covering-the-Partition"><a href="#Two-Extremes-for-Covering-the-Partition" class="headerlink" title="Two Extremes for Covering the Partition"></a>Two Extremes for Covering the Partition</h2><p>分区有两个极限情况:</p>
+<ol>
+<li>完全笛卡尔乘积</li>
+</ol>
+<p>每一种代表测试元素的组合，可以覆盖整个测试空间。</p>
+<ol start="2">
+<li>每一个分区被至少覆盖一次</li>
+</ol>
+<p>实际测试中常常在两者中取折中。</p>
+<h2 id="Blackbox-and-Whitebox-Testing"><a href="#Blackbox-and-Whitebox-Testing" class="headerlink" title="Blackbox and Whitebox Testing"></a>Blackbox and Whitebox Testing</h2><p>回忆”specification”是函数的行为说明:参数类型，返回值，参数限制和彼此间关系等等</p>
+<p><strong>黑盒测试</strong>指只根据specification来挑选测试用例，而不关心函数的具体执行。</p>
+<p><strong>白盒测试</strong>指根据函数体的具体执行来挑选测试案例，eg:函数体使用了不同的算法来完成同一件事，那么你就需要选取适用于测试不同算法的不同测试案例。如果函数缓存记录了之前的输入，那么你也许就需要重复测试案例来测试功能。</p>
+<p>但请注意:你的测试用例不需要尝试规格说明中没有明确要求的实现行为。例如，如果规格说明中说“如果输入没有格式化，那么将抛出异常”，那么你不应该特地的检查程序是否抛出NullPointerExpection异常，因为当前的代码实现决定了程序有可能抛出这个异常。</p>
+<p>练习:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Reverses the end of a string.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> *                          012345                     012345</span></span><br><span class="line"><span class="comment"> * For example: reverseEnd(&quot;Hello, world&quot;, 5) returns &quot;Hellodlrow ,&quot;</span></span><br><span class="line"><span class="comment"> *                               &lt;-----&gt;                    &lt;-----&gt;</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * With start == 0, reverses the entire text.</span></span><br><span class="line"><span class="comment"> * With start == text.length(), reverses nothing.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> text    non-null String that will have its end reversed</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> start   the index at which the remainder of the input is reversed,</span></span><br><span class="line"><span class="comment"> *                requires 0 &lt;= start &lt;= text.length()</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> input text with the substring from start to the end of the string reversed</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">reverseEnd</span><span class="params">(String text, <span class="type">int</span> start)</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>对于start参数，请选取一个测试分区:</p>
+<p>A. start &#x3D; 0, start &#x3D; 5, start &#x3D; 100</p>
+<p>B. start &lt; 0, start &#x3D; 0, start &gt; 0</p>
+<p>C. start &#x3D; 0, 0 &lt; start &lt; text.length(), start &#x3D; text.length()</p>
+<p>D. start &lt; text.length(), start &#x3D; text.length(), start &gt; text.length()</p>
+<p>答案为C</p>
+<p>A没有测试边界值</p>
+<p>B没有测试边界值且测试了非法值</p>
+<p>C覆盖了start的合法范围，测试充分</p>
+<p>D只测试了边界值</p>
+<h2 id="Documenting-Your-Testing-Strategy"><a href="#Documenting-Your-Testing-Strategy" class="headerlink" title="Documenting Your Testing Strategy"></a>Documenting Your Testing Strategy</h2><p>我们需要记录我们的测试策略，以便日后审查。</p>
+<p>测试策略包括:我们是如何分区的，有哪些特殊值和边界值要考虑。</p>
+<p>Example:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Reverses the end of a string.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * For example:</span></span><br><span class="line"><span class="comment"> *   reverseEnd(&quot;Hello, world&quot;, 5)</span></span><br><span class="line"><span class="comment"> *   returns &quot;Hellodlrow ,&quot;</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * With start == 0, reverses the entire text.</span></span><br><span class="line"><span class="comment"> * With start == text.length(), reverses nothing.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> text    non-null String that will have</span></span><br><span class="line"><span class="comment"> *                its end reversed</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> start   the index at which the</span></span><br><span class="line"><span class="comment"> *                remainder of the input is</span></span><br><span class="line"><span class="comment"> *                reversed, requires 0 &lt;=</span></span><br><span class="line"><span class="comment"> *                start &lt;= text.length()</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> input text with the substring from</span></span><br><span class="line"><span class="comment"> *               start to the end of the string</span></span><br><span class="line"><span class="comment"> *               reversed</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">static</span> String <span class="title function_">reverseEnd</span><span class="params">(String text, <span class="type">int</span> start)</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Testing strategy</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * Partition the inputs as follows:</span></span><br><span class="line"><span class="comment"> * text.length(): 0, 1, &gt; 1</span></span><br><span class="line"><span class="comment"> * start:         0, 1, 1 &lt; start &lt; text.length(),</span></span><br><span class="line"><span class="comment"> *                text.length() - 1, text.length()</span></span><br><span class="line"><span class="comment"> * text.length()-start: 0, 1, even &gt; 1, odd &gt; 1</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * Include even- and odd-length reversals because</span></span><br><span class="line"><span class="comment"> * only odd has a middle element that doesn&#x27;t move.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * Exhaustive Cartesian coverage of partitions.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="comment">// covers test.length() = 0,</span></span><br><span class="line"><span class="comment">//        start = 0 = text.length(),</span></span><br><span class="line"><span class="comment">//        text.length()-start = 0</span></span><br><span class="line"><span class="meta">@Test</span> <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testEmpty</span><span class="params">()</span> &#123;</span><br><span class="line">    assertEquals(<span class="string">&quot;&quot;</span>, reverseEnd(<span class="string">&quot;&quot;</span>, <span class="number">0</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="Coverage"><a href="#Coverage" class="headerlink" title="Coverage"></a>Coverage</h2><p>评估一个测试集的好坏还有一个指标就是:覆盖率。</p>
+<p>常见的三种覆盖:</p>
+<blockquote>
+<ul>
+<li>声明覆盖率: 每一个声明都被测试到了吗？</li>
+<li>分支覆盖率:对于每一个if 或 while 等等控制操作，它们的分支都被测试过吗？</li>
+<li>路径覆盖率: 每一种分支的组合路径都被测试过吗？</li>
+</ul>
+</blockquote>
+<p>其中，分支覆盖率要比声明覆盖率严格（需要更多的测试），路径覆盖率要比分支覆盖率严格。在工业界，100%的声明覆盖率一个普遍的要求，但是这有时也是不可能实现的，因为会存在一些“不可能到达的代码”（例如有一些断言）。100%的分支覆盖率是一种很高的要求，对于军工&#x2F;安全关键的软件可能会有此要求 (e.g., MC&#x2F;DC, modified condition&#x2F;decision coverage)。不幸的是，100%的路径覆盖率是不可能的，因为这会让测试用例空间以指数速度增长。</p>
+<p>一个标准的方法就是不断地增加测试用例直到覆盖率达到了预定的要求。在实践中，声明覆盖通常用覆盖率工具进行计数。利用这样的工具，白盒测试会变得很容易，你只需要不断地调整覆盖的地方，直到所有重要的声明都被覆盖到。</p>
+<p><img src="/img/image-4.png" alt="alt text"></p>
+<p>在Eclipse中有一个好用的代码覆盖率工具 EclEmma 。如上图所示，EclEmma会将被执行过的代码用绿色标出，没有被执行的代码用红色标出。对于一个分支语句，如果它的一个分支一直没有被执行，那么这个分支判断语句会被标为黄色。例如上图中，我们发现for循环中的if语句每一次都是假的，我们下一步要做的就是调整测试用例使得这个判断可以为真。</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/caohongxing/article/details/118907457">EclEmma教程</a></p>
+<h2 id="Unit-Testing-and-Stubs"><a href="#Unit-Testing-and-Stubs" class="headerlink" title="Unit Testing and Stubs"></a>Unit Testing and Stubs</h2><p>一个好的测试程序应该对每个独立的模块有测试，这叫做单元测试。</p>
+<p>其对立面就是集成测试，测试一组集成的模块，甚至是整个程序。但你不能只有集成测试，否则出错时就需要去寻找bug，它可能在程序的任何地方。集成测试仍然很重要，因为模块之间的交互很有可能出错，比如交互时的数据类型不匹配。</p>
+<p>Example：<br>下面假设你在设计一个搜索引擎。其中有两个模块 getWebPage(), extractWords() ，其中 getWebPage()负责下载网页，extractWords() 负责将页面内容拆成一个个词汇。</p>
+<p>而这两个模块又是被另一个模块 makeIndex()作为网络爬虫的一部分使用的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** <span class="doctag">@return</span> the contents of the web page downloaded from url </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">getWebPage</span><span class="params">(URL url)</span> &#123;...&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** <span class="doctag">@return</span> the words in string s, in the order they appear, </span></span><br><span class="line"><span class="comment"> *          where a word is a contiguous sequence of </span></span><br><span class="line"><span class="comment"> *          non-whitespace and non-punctuation characters </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> List&lt;String&gt; <span class="title function_">extractWords</span><span class="params">(String s)</span> &#123; ... &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/** <span class="doctag">@return</span> an index mapping a word to the set of URLs </span></span><br><span class="line"><span class="comment"> *          containing that word, for all webpages in the input set </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Map&lt;String, Set&lt;URL&gt;&gt; <span class="title function_">makeIndex</span><span class="params">(Set&lt;URL&gt; urls)</span> &#123; </span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">for</span> (URL url : urls) &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">page</span> <span class="operator">=</span> getWebPage(url);</span><br><span class="line">        List&lt;String&gt; words = extractWords(page);</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<p>我们的测试可以分为：</p>
+<ul>
+<li>对getWebPage()进行单元测试，输入不同的 URLs</li>
+<li>对extractWords()进行单元测试，输入不同的字符串</li>
+<li>对makeIndex() 进行单元测试，输入不同的 URLs</li>
+</ul>
+<p>测试员有时会犯这样一个错误：extractWords() 的测试用例依赖于getWebPage() 的正确性。正如前面所提到的，单元测试应该尽可能将模块孤立起来。如果我们在对extractWords() 的测试输入进行分区后，其值中包含有 getWebPage() 的输出，那么如果getWebPage() 本身就有bug，程序的测试将变得不可信！正确的做法应该是先组建好独立的测试用例，例如一些下载好的网页，将其作为测试用例进行测试。</p>
+<p>注意到 makeIndex() 的单元测试并不能完全孤立，因为我们在测试它的时候实际上也测试了它调用的模块。如果测试失败，这些bug也可能来自于它调用过的模块之中——这也是为什么我们要先单元测试 getWebPage() 和 extractWords() ，这样一来我们就能确定bug出现在链接这些模块的代码之中。</p>
+<p>综上所述，测试时需要考虑测试模块之间的依赖关系，并以此来决定测试顺序。</p>
+<p>如果我们要做更高于 makeIndex()这一level的测试，我们将它调用的模块写成桩 。例如，一个 getWebPage() 的桩不会真正去访问网页，而是返回一个预先设置好的网页（mock web page），不管参数URL是什么。一个类的桩通常被称为“模拟对象”（ mock object）。在构建大型系统的时候桩是一种重要的手段，但是在本门课程中我们不会使用它。[这里的Stubs桩，个人理解为模块的占位符]</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/wangjianno2/article/details/52177481">Mock and Stub介绍</a></p>
+<h2 id="Automated-Testing-and-Regression-Testing"><a href="#Automated-Testing-and-Regression-Testing" class="headerlink" title="Automated Testing and Regression Testing"></a>Automated Testing and Regression Testing</h2><p>自动化测试，即自动运行测试并给出测试结果，无需与程序员交互，无需程序员在过程中给出输入。自动化测试驱动会自主用固定的测试用例测试模块，并检查结果。</p>
+<p>但即使自动化测试工具比如JUnit很方便，我们也应该自己想出好的测试用例，自动生成测试用例仍是一个前沿领域。</p>
+<p>“””<br>要特别注意的是，当你修改你的代码后，别忘了重新运行之前的自动化测试。软件工程师经常遭遇修改大型&#x2F;复杂程序所带来的痛苦，不论是修改一个bug、增加一个新的功能、优化一段代码的性能，都有可能带来新的问题。无论什么时候，自动化测试都能保证软件最重要的底线——行为和结果是正确的，即使只是一小段测试。我们称修改代码带来新的bug的现象为“回归”，而在修改后重新运行所有的测试称为“回归测试”。</p>
+<p>一个好的测试应该是能发现bug的，你应该不断的充实你的测试用例。所以无论什么时候修改了一个bug，记得将导致bug的输入添加到你的测试用例里，并在以后的回归测试中去使用它——毕竟这个bug已经出现了，说明它可能是一个很容易犯的错误。</p>
+<p>这些思想也是“测试优先debugging”的核心，当bug出现时，立刻将触发bug的输入存放到测试用例中，当你修复bug后，再次运行这些 （译者注：注意不仅是触发bug的输入）测试，如果它们都通过的话，你的debug也就完成了。</p>
+<p>在实践中，自动化测试和回归测试通常结合起来使用。因为回归测试只有自动化才可行（不然大量的测试没法实现）。反过来，如果你已经构建了自动化测试，你通常也会用它来防止回归的发生。所以自动化回归测试(automated regression testing)是软件工程里的一个“最佳实践”（best-practice）。<br>“””</p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>MIT 6.005 Reading3 Testing</p><p><a href="http://example.com/2024/11/23/MIT-6-005-Reading3-Testing/">http://example.com/2024/11/23/MIT-6-005-Reading3-Testing/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>Author</h6><p>Zhuokang Shen</p></div></div><div class="level-item is-narrow"><div><h6>Posted on</h6><p>2024-11-23</p></div></div><div class="level-item is-narrow"><div><h6>Updated on</h6><p>2024-12-03</p></div></div><div class="level-item is-narrow"><div><h6>Licensed under</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="notification is-danger">You need to set <code>install_url</code> to use ShareThis. Please set it in <code>_config.yml</code>.</div></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">Like this article? Support the author with</h3><div class="buttons is-centered"><a class="button donate" href="/" target="_blank" rel="noopener" data-type="afdian"><span class="icon is-small"><i class="fas fa-charging-station"></i></span><span>Afdian.net</span></a><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>Alipay</span><span class="qrcode"><img src="/" alt="Alipay"></span></a><a class="button donate" href="/" target="_blank" rel="noopener" data-type="buymeacoffee"><span class="icon is-small"><i class="fas fa-coffee"></i></span><span>Buy me a coffee</span></a><a class="button donate" href="/" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><div class="notification is-danger">You forgot to set the <code>business</code> or <code>currency_code</code> for Paypal. Please set it in <code>_config.yml</code>.</div><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>Wechat</span><span class="qrcode"><img src="/" alt="Wechat"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2024/11/21/MIT-6-005-Reading4-Code-Review/"><span class="level-item">MIT 6.005 Reading 4 Code Review</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">Comments</h3><div class="notification is-danger">You forgot to set the <code>shortname</code> for Disqus. Please set it in <code>_config.yml</code>.</div></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar" src="/img/selfphoto.png" alt="Zhuokang Shen"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">Zhuokang Shen</p><p class="is-size-6 is-block">Undergraduate in ECNU</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shanghai, China</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">Posts</p><a href="/archives"><p class="title">3</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">Categories</p><a href="/categories"><p class="title">0</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">Tags</p><a href="/tags"><p class="title">3</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/Eliot-Shen" target="_blank" rel="me noopener">Follow</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="me noopener" title="Github" href="https://github.com/Eliot-Shen"><i class="fab fa-github"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">Links</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://hexo.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Hexo</span></span><span class="level-right"><span class="level-item tag">hexo.io</span></span></a></li><li><a class="level is-mobile" href="https://bulma.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Bulma</span></span><span class="level-right"><span class="level-item tag">bulma.io</span></span></a></li></ul></div></div></div><!--!--><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">Recents</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-11-23T14:53:33.000Z">2024-11-23</time></p><p class="title"><a href="/2024/11/23/MIT-6-005-Reading3-Testing/">MIT 6.005 Reading3 Testing</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-11-21T05:53:06.000Z">2024-11-21</time></p><p class="title"><a href="/2024/11/21/MIT-6-005-Reading4-Code-Review/">MIT 6.005 Reading 4 Code Review</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-11-10T09:01:43.000Z">2024-11-10</time></p><p class="title"><a href="/2024/11/10/the-first-post/">the first post</a></p></div></article></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">Archives</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2024/11/"><span class="level-start"><span class="level-item">November 2024</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></div></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">Tags</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/MIT-6-005/"><span class="tag">MIT 6.005</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Software-Engineering/"><span class="tag">Software Engineering</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/none/"><span class="tag">none</span><span class="tag">1</span></a></div></div></div></div></div><div class="card widget" data-type="subscribe-email"><div class="card-content"><div class="menu"><h3 class="menu-label">Subscribe for updates</h3><form action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open(&#039;https://feedburner.google.com/fb/a/mailverify?uri=&#039;,&#039;popupwindow&#039;,&#039;scrollbars=yes,width=550,height=520&#039;);return true"><input type="hidden" value="" name="uri"><input type="hidden" name="loc" value="en_US"><div class="field has-addons"><div class="control has-icons-left is-expanded"><input class="input" name="email" type="email" placeholder="Email"><span class="icon is-small is-left"><i class="fas fa-envelope"></i></span></div><div class="control"><input class="button" type="submit" value="Subscribe"></div></div></form></div></div></div><div class="card widget"><div class="card-content"><div class="notification is-danger">You need to set <code>client_id</code> and <code>slot_id</code> to show this AD unit. Please set it in <code>_config.yml</code>.</div></div></div><div class="card widget" data-type="subscribe-email"><div class="card-content"><div class="menu"><h3 class="menu-label">follow.it</h3><form action="" method="post" target="_blank"><div class="field has-addons"><div class="control has-icons-left is-expanded"><input class="input" name="email" type="email" placeholder="Email"><span class="icon is-small is-left"><i class="fas fa-envelope"></i></span></div><div class="control"><input class="button" type="submit" value="Subscribe"></div></div></form></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/sea.jpg" alt="EliotShen&#039;s blog" height="28"></a><p class="is-size-7"><span>&copy; 2024 Zhuokang Shen</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p><p class="is-size-7">© 2019</p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("en");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script data-pjax src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="Back to top" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script data-pjax src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "This website uses cookies to improve your experience.",
+          dismiss: "Got it!",
+          allow: "Allow cookies",
+          deny: "Decline",
+          link: "Learn more",
+          policy: "Cookie Policy",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script src="/js/pjax.js"></script><!--!--><!--!--><!--!--><script data-pjax src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="Type something..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"Type something...","untitled":"(Untitled)","posts":"Posts","pages":"Pages","categories":"Categories","tags":"Tags"});
+        });</script></body></html>
