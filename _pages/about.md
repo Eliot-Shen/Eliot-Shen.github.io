@@ -30,7 +30,7 @@ Feel free to contact me if interest.
 ## 📝 Research
 - **DF-LLaVA: Unlocking MLLM's potential for Synthetic Image Detection via Prompt-Guided Knowledge Injection** **[<a href="https://arxiv.org/abs/2509.14957">arXiv</a>]**  <br>
   *Preprint, submitted to ICASSP 2026.* <br>
-  This project proposes DF-LLaVA, a simple yet effective framework that enhances multimodal large language models (MLLMs) for interpretable synthetic image detection. By extracting latent discriminative knowledge from MLLMs and reinjecting it into training via prompt-based guidance, DF-LLaVA unlocks the model’s intrinsic capability to assess image authenticity with both high accuracy and human interpretability. Compared to existing binary or probability-based detectors, DF-LLaVA not only outperforms expert models in detection accuracy but also preserves the explanatory reasoning advantages of MLLMs, achieving a strong balance between precision and transparency in synthetic image forensics.
+  This project proposes DF-LLaVA, a simple yet effective framework that enhances MLLMs for interpretable synthetic image detection. By extracting latent discriminative knowledge from MLLMs and reinjecting it into training via prompt-based guidance, DF-LLaVA unlocks the model’s intrinsic capability to assess image authenticity with both high accuracy and human interpretability.
 
 
 ## 🎖 Scholarships and Honors
