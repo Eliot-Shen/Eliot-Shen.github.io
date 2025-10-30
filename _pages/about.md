@@ -20,6 +20,7 @@ Feel free to contact me if interest.
 
 ## 🔥 News
 - [2025.7] As **Team Leader**, won the **Third Prize (National Final)** 🥉in the China Collegiate Computing Design Competition.
+- [2025.1-5] Joined an AI startup as an **Algorithm Intern**, responsible for RAG and Agent🤖 design and optimization.
 - [2025.5] As **Team Leader**, won the **Third Prize (National Final)** 🥉in the National Collegiate Software Innovation Competition.Led the development of [AI-YinYang-Eyes](https://github.com/Eliot-Shen/AI-YinYang-Eyes), an app designed to real-time protect users from AI-generated visual and audio fraud in chat applications.
 - [2025.3] Founded the **Confidence United Football Team** and served as **Team Captain**.
 - [2024.11] As **Team Leader**, won the **Third Prize (National Final)** 🥉in the Global Campus Artificial Intelligence Algorithm Elite Competition.
