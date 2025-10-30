@@ -11,6 +11,7 @@ redirect_from:
 I'm a 3rd-year undergraduate student at [East China Normal University](https://en.sjtu.edu.cn/), majoring in Software Engineering.
 I am currently a research intern at the Mobile Visual Computing Lab, advised by Prof. Shaohui Lin. 
 My research interests include Multi-modal Learning, Natural Language Processing (NLP), and AI Safety.
+My goal is to conduct work that has positive societal and real-world impact, while also being practically applicable.
 
 Outside of research, I am passionate about sports, especially football, table tennis, and tennis. 
 I currently serve as the captain of the ECNU School of Software Engineering Football Team, where I lead training sessions and matches.
@@ -22,7 +23,7 @@ Feel free to contact me if interest.
 - [2025.5] As **Team Leader**, won the **Third Prize (National Final)** 🥉in the National Collegiate Software Innovation Competition.Led the development of [AI-YinYang-Eyes](https://github.com/Eliot-Shen/AI-YinYang-Eyes), an app designed to real-time protect users from AI-generated visual and audio fraud in chat applications.
 - [2025.3] Founded the **Confidence United Football Team** and served as **Team Captain**.
 - [2024.11] As **Team Leader**, won the **Third Prize (National Final)** 🥉in the Global Campus Artificial Intelligence Algorithm Elite Competition.
-- [2023.11] As a core member, won the **First Medal** 🥇⚽️ in the ECNU Freshman Football Cup.
+- [2023.11] As a core member, won the **Gold Medal** 🥇⚽️ in the ECNU Freshman Football Cup.
 
 
 ## 📝 Research
