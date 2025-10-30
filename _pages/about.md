@@ -8,7 +8,7 @@ redirect_from:
 ---
 
 ## 🔎  About Me
-I'm a 3rd-year undergraduate student at [East China Normal University](https://www.ecnu.edu.cn/), majoring in Software Engineering.
+I'm a 3rd-year undergraduate student at [East China Normal University](https://www.ecnu.edu.cn), majoring in Software Engineering.
 I am currently a research intern at the Mobile Visual Computing Lab, advised by Prof. Shaohui Lin. 
 My research interests include Multi-modal Learning, Natural Language Processing (NLP), and AI Safety.
 My goal is to conduct work that has positive societal and real-world impact, while also being practically applicable.
