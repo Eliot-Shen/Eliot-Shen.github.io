@@ -18,11 +18,11 @@ I currently serve as the captain of the ECNU School of Software Engineering Foot
 Feel free to contact me if interest.
 
 ## 🔥 News
-- [2025.7] As **Team Leader**, won the **Third Prize (National Final)** in the China Collegiate Computing Design Competition.
-- [2025.5] As **Team Leader**, won the **Third Prize (National Final)** in the National Collegiate Software Innovation Competition.Led the development of [AI-YinYang-Eyes](https://github.com/Eliot-Shen/AI-YinYang-Eyes), an app designed to real-time protect users from AI-generated visual and audio fraud in chat applications.
+- [2025.7] As **Team Leader**, won the **Third Prize (National Final)** 🥉in the China Collegiate Computing Design Competition.
+- [2025.5] As **Team Leader**, won the **Third Prize (National Final)** 🥉in the National Collegiate Software Innovation Competition.Led the development of [AI-YinYang-Eyes](https://github.com/Eliot-Shen/AI-YinYang-Eyes), an app designed to real-time protect users from AI-generated visual and audio fraud in chat applications.
 - [2025.3] Founded the **Confidence United Football Team** and served as **Team Captain**.
-- [2024.11] As **Team Leader**, won the **Third Prize (National Final)** in the Global Campus Artificial Intelligence Algorithm Elite Competition.
-- [2023.11] As a core member, won the **First Prize** 🥇⚽️ in the ECNU Freshman Football Cup.
+- [2024.11] As **Team Leader**, won the **Third Prize (National Final)** 🥉in the Global Campus Artificial Intelligence Algorithm Elite Competition.
+- [2023.11] As a core member, won the **First Medal** 🥇⚽️ in the ECNU Freshman Football Cup.
 
 
 ## 📝 Research
